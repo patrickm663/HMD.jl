@@ -1,5 +1,5 @@
 # HMD.jl
-Makes it easy to get data from Human Mortality Database (HMD) into Julia!
+Makes it easy to get data from [Human Mortality Database (HMD)](https://www.mortality.org/) into Julia!
 
 ## Installation
 Clone the repo, enter and activate!
