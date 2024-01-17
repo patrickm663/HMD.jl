@@ -7,8 +7,8 @@ using HTTP, CSV, DataFrames
 
 Takes as input the country, table, interval and user credentials.
 
-- `country` the three letter country code
-- `tbl` one of "Mx", "Dx", etc.
+- `country` the country OR country code -- see `get_country()` for a full list
+- `tbl` the chosen table OR table code -- see `get_table()` for a full list
 - `grp` one of "1x1", "1x5", "1x10" -- depending on combination with `tbl`
 - `username` email address when registering
 - `password` password when registering
