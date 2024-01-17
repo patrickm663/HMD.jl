@@ -11,7 +11,9 @@ cd HMD.jl/
 Start up Julia and enter package mode
 
 ```julia
-] activate .
+julia
+julia> using Pkg
+julia> Pkg.activate(".")
 ```
 
 ## Quick Example
