@@ -172,7 +172,7 @@ function get_countries()::Dict{String, String}
 				   "South Korea" => "KOR",
 				   "Russia" => "RUS",
 				   "Slovakia" => "SVK",
-				   "Slovinia" => "SVN",
+				   "Slovenia" => "SVN",
 				   "Spain" => "ESP",
 				   "Sweden" => "SWE", 
 				   "Switzerland" => "CHE",
@@ -187,7 +187,8 @@ function get_countries()::Dict{String, String}
 				   "United Kingdom (Northern Ireland)" => "GBR_NIR",
 				   "Northern Ireland" => "GBR_NIR",
 				   "United States of America" => "USA",
-				   "U.S.A" => "USA",
+				   "U.S.A." => "USA",
+				   "U.S." => "USA",
 				   "Ukraine" => "UKR")
   return countries
 end
