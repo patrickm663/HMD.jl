@@ -5,7 +5,7 @@ A simple interface to load mortality data from the [Human Mortality Database (HM
 **_Note: expects users to have already registered on mortality.org. New users can register [here](https://www.mortality.org/Account/Auth)._**
 
 ## Quickstart
-Get Australian mortality data in yearly intervals:
+Get Australian mortality data in yearly intervals using the codes:
 
 ```julia-repl
 julia> df = read_HMD("AUS", "Mx", "1x1", "username", "password");
@@ -73,10 +73,84 @@ julia> df
  11100 │  2020    110  1.69687   0.0       1.69687
                                   11051 rows omitted
 ```
+Alternatively, get data by writing the full name out:
+
+```julia
+julia> df = HMD.read_HMD("United Kingdom (England and Wales)", "Deaths by Lexis Triangle", "1x5", "username", "password");
+Checking inputs are valid...
+Attempting initial connection...
+Attempting to login...
+Data successfully retrieved...
+Data processing in progress...
+Success!
+
+julia> df
+40001×6 DataFrame
+   Row │ Year   Age    Cohort   Female    Male      Total    
+       │ Int64  Int64  Float64  Float64   Float64   Float64  
+───────┼─────────────────────────────────────────────────────
+     1 │  1841      0   1841.0  22154.1   27549.9   49704.0
+     2 │  1841      0   1840.0  10645.9   13975.1   24621.0
+     3 │  1841      1   1840.0   7701.29   8141.42  15842.7
+     4 │  1841      1   1839.0   5593.71   5872.58  11466.3
+     5 │  1841      2   1839.0   3890.47   3911.58   7802.05
+     6 │  1841      2   1838.0   3628.53   3619.42   7247.95
+     7 │  1841      3   1838.0   2478.04   2562.2    5040.24
+     8 │  1841      3   1837.0   2412.96   2475.8    4888.76
+     9 │  1841      4   1837.0   1797.61   1844.6    3642.21
+    10 │  1841      4   1836.0   1750.39   1782.4    3532.79
+    11 │  1841      5   1836.0   1345.03   1392.61   2737.64
+    12 │  1841      5   1835.0   1369.71   1375.59   2745.3
+    13 │  1841      6   1835.0   1044.56   1095.8    2140.36
+    14 │  1841      6   1834.0   1063.73   1082.41   2146.14
+    15 │  1841      7   1834.0    807.25    857.85   1665.1
+    16 │  1841      7   1833.0    822.07    847.36   1669.43
+    17 │  1841      8   1833.0    633.11    678.75   1311.86
+    18 │  1841      8   1832.0    644.73    670.45   1315.18
+    19 │  1841      9   1832.0    522.12    558.51   1080.63
+    20 │  1841      9   1831.0    531.7     551.68   1083.38
+    21 │  1841     10   1831.0    452.53    479.38    931.91
+    22 │  1841     10   1830.0    490.93    496.2     987.13
+    23 │  1841     11   1830.0    427.6     439.79    867.39
+    24 │  1841     11   1829.0    463.88    455.23    919.11
+    25 │  1841     12   1829.0    424.04    420.59    844.63
+   ⋮   │   ⋮      ⋮       ⋮        ⋮         ⋮         ⋮
+ 39978 │  2021     98   1922.0   1837.07    596.95   2434.02
+ 39979 │  2021     99   1922.0   1514.03    509.59   2023.62
+ 39980 │  2021     99   1921.0   1412.97    469.41   1882.38
+ 39981 │  2021    100   1921.0   1185.09    327.66   1512.75
+ 39982 │  2021    100   1920.0   1046.91    277.34   1324.25
+ 39983 │  2021    101   1920.0    916.5     244.25   1160.75
+ 39984 │  2021    101   1919.0    578.5     150.75    729.25
+ 39985 │  2021    102   1919.0    387.07     86.28    473.35
+ 39986 │  2021    102   1918.0    303.93     64.72    368.65
+ 39987 │  2021    103   1918.0    239.75     49.42    289.17
+ 39988 │  2021    103   1917.0    195.25     38.58    233.83
+ 39989 │  2021    104   1917.0    152.43     28.31    180.74
+ 39990 │  2021    104   1916.0    138.57     24.69    163.26
+ 39991 │  2021    105   1916.0    100.9      18.14    119.04
+ 39992 │  2021    105   1915.0     73.98     12.94     86.92
+ 39993 │  2021    106   1915.0     54.24      9.1      63.34
+ 39994 │  2021    106   1914.0     40.79      6.65     47.44
+ 39995 │  2021    107   1914.0     29.33      4.6      33.93
+ 39996 │  2021    107   1913.0     20.57      2.89     23.46
+ 39997 │  2021    108   1913.0     14.52      1.97     16.49
+ 39998 │  2021    108   1912.0      9.93      1.43     11.36
+ 39999 │  2021    109   1912.0      6.89      0.96      7.85
+ 40000 │  2021    109   1911.0      4.7       0.63      5.33
+ 40001 │  2021    110      0.0      9.13      0.68      9.81
+                                           39952 rows omitted
+```
 
 ## Package Features
 - Downloads and creates a `DataFrame` object for a given country, type of table, and interval.
 - Provides the functionality to save output as CSVs.
+- Supports full country and table names.
+- Displays available countries and tables.
+
+## TODO
+- Check all combinations and flag invalid ones.
+- Add unit tests
 
 ## Documentation
 
