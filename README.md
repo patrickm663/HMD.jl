@@ -7,10 +7,6 @@ Clone the repo, enter and activate!
 ```
 git clone git@github.com:patrickm663/HMD.jl
 cd HMD.jl/
-```
-Start up Julia and enter package mode
-
-```julia
 julia
 julia> using Pkg
 julia> Pkg.activate(".")
