@@ -21,8 +21,8 @@ jobs:
         with:
           version: '1.10'
       - name: Install dependencies
-        run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
+        run: cd docs/ && julia --project=. -e 'using Pkg; Pkg.instantiate()'
       - name: Build and deploy
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # If authenticating with GitHub Actions token
-        run: julia --project=docs/ docs/make.jl
+        run: cd docs/ && julia --project=. make.jl
