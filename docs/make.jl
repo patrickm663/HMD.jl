@@ -6,4 +6,4 @@ using Documenter, HMD
 
 makedocs(sitename = "HMD.jl", modules = [HMD])
 
-deploydocs(repo="github.com/patrickm663/HMD.jl.git")
+deploydocs(repo="github.com/patrickm663/HMD.jl")
