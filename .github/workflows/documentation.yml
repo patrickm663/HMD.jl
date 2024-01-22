@@ -21,6 +21,14 @@ jobs:
         with:
           version: '1.10'
       - name: Install dependencies, build, and deploy
+      - run: |
+          julia --project=docs -e '
+            using Pkg
+            Pkg.develop(PackageSpec(path=pwd()))
+            Pkg.instantiate()
+            Pkg.add("Documenter")'
+      - run: julia --project=docs docs/make.jl
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: cd docs/ && julia --project=. -e 'using Pkg; Pkg.instantiate()' && julia --project=. make.jl
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Needed due to https://github.com/JuliaDocs/Documenter.jl/issues/1177
+          DOCUMENTER_KEY: ${{ secrets.ACCESS_TOKEN }}
