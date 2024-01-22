@@ -1,6 +1,11 @@
+# License: MIT
+# Core functions
+
 module HMD
 
 using HTTP, CSV, DataFrames
+
+include("utils.jl")
 
 """
   read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)
@@ -18,7 +23,6 @@ Optional:
 
 Returns a `DataFrame` object if successful.
 """
-
 function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)
 
   println("Checking inputs are valid...")
@@ -65,71 +69,41 @@ function read_HMD(country::String, tbl::String, grp::String, username::String, p
   end
 end
 
-function process_raw_txt(table_txt::String)::DataFrame
-  table_csv::String = table_txt[findfirst("Year", table_txt)[1]:end]
+"""
+  read_HMD(file_name::String)
 
-  # remove spaces
-  table_csv = replace(table_csv, r"[ ]+" => ",")
-  # remove comma after new line
-  table_csv = replace(table_csv, r"\n," => "\n")
-  # remove '+' from '110+'
-  table_csv = replace(table_csv, "+" => "")
-  # Set '.' to 0 -- covers edge cases
-  table_csv = replace(table_csv, ",.," => ",0.0,")
-  table_csv = replace(table_csv, ",.\n" => ",0.0\n")
-  table_csv = replace(table_csv, "0.0,.,0.0\n" => "0.0,0.0,0.0\n")
-  # Read as DataFrame 
-  table_df::DataFrame = DataFrame(CSV.File(IOBuffer(table_csv)))
+Takes as input the location of a .txt file downloaded from https://www.mortality.org/ and stored locally
 
-  return table_df
+Optional:
+- `save` a Boolean keyword to save to a CSV
+
+Returns a `DataFrame` object containing the data.
+"""
+function read_HMD(file_name::String; save=false)::DataFrame
+  # Check a .txt file is provided
+  @assert contains(file_name, ".txt")
+
+  # Open the file then read it as a String
+  txt_file = open(file_name, "r")
+  txt_string = read(txt_file, String)
+  # Apply the same pre-processing as per the online read_HMD() function
+  df_ = process_raw_txt(txt_string)
+  close(txt_file)
+
+  if save == true
+    # Remove .txt extension
+    file_path = file_name[1:(end-3)] * "csv"
+    CSV.write(file_path, df_)
+  end
+  return df_
 end
 
-function is_valid(country::String, tbl::String, grp::String)::Bool
-  country_check = country ∈ keys(get_countries()) || country ∈ values(get_countries())
-  if country_check
-    table_check = tbl ∈ keys(get_tables()) || tbl ∈ values(get_tables())
-    if table_check
-      return table_check
-    else
-      @error "Invalid table: see HMD.get_tables() for a full list of valid tables"
-      return table_check
-    end
-  else
-    @error "Invalid country: see HMD.get_countries() for a full list of valid countries"
-    return country_check
-  end
-end
-
-function get_url(country::String, tbl::String, grp::String)::String
-  list_of_countries = get_countries()
-  list_of_tables = get_tables()
-
-  data_url_stub = "https://www.mortality.org/File/GetDocument/hmd.v6/"
-  if country ∈ keys(list_of_countries)
-    country = list_of_countries[country]
-  end
-  if tbl ∈ keys(list_of_tables)
-    tbl = list_of_tables[tbl]
-  end
-
-  if tbl ∈ ["Births", "Deaths_lexis", "Population", "Exposures_lexis", "E0per"]
-    if grp == "1x5" && tbl == "Population"
-      data_url = data_url_stub * country * "/STATS/" * "Population5.txt"
-    else
-      data_url = data_url_stub * country * "/STATS/" * tbl * ".txt"
-    end
-  else
-    data_url = data_url_stub * country * "/STATS/" * tbl * "_" * grp * ".txt"
-  end
-  return data_url
-end
 
 """
   get_countries()
 
 Returns a `Dictionary` of valid country codes.
 """
-
 function get_countries()::Dict{String, String}
   countries = Dict{String, String}(
 				   "Australia" => "AUS",
@@ -198,7 +172,6 @@ end
 
 Returns a `Dictionary` of valid tables.
 """
-
 function get_tables()::Dict{String, String}
   tables = Dict{String, String}(
 				"Births" => "Births",
