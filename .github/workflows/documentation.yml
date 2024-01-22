@@ -1,4 +1,4 @@
-# Source: https://documenter.juliadocs.org/stable/man/hosting/
+# Modified from: https://documenter.juliadocs.org/stable/man/hosting/
 
 name: Documentation
 
@@ -20,9 +20,7 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: '1.10'
-      - name: Install dependencies
-        run: cd docs/ && julia --project=. -e 'using Pkg; Pkg.instantiate()'
-      - name: Build and deploy
+      - name: Install dependencies, build, and deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # If authenticating with GitHub Actions token
-        run: cd docs/ && julia --project=. make.jl
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: cd docs/ && julia --project=. -e 'using Pkg; Pkg.instantiate()' && julia --project=. make.jl
