@@ -8,7 +8,7 @@ using HTTP, CSV, DataFrames
 include("utils.jl")
 
 """
-  read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)
+  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)`
 
 Takes as input the country, table, interval and user credentials.
 
@@ -70,7 +70,7 @@ function read_HMD(country::String, tbl::String, grp::String, username::String, p
 end
 
 """
-  read_HMD(file_name::String)
+  `read_HMD(file_name::String)`
 
 Takes as input the location of a .txt file downloaded from https://www.mortality.org/ and stored locally
 
@@ -100,7 +100,7 @@ end
 
 
 """
-  get_countries()
+  `get_countries()`
 
 Returns a `Dictionary` of valid country codes.
 """
@@ -168,7 +168,7 @@ function get_countries()::Dict{String, String}
 end
 
 """
-  get_tables()
+  `get_tables()`
 
 Returns a `Dictionary` of valid tables.
 """
