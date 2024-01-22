@@ -2,4 +2,5 @@
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+HMD = "efbec085-ac95-4f2a-8975-c3bbdc78481e"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
