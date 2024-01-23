@@ -1,4 +1,5 @@
 # HMD.jl
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://github.com/patrickm663/HMD.jl/actions/workflows/documentation.yml/badge.svg)](https://github.com/patrickm663/HMD.jl/actions/workflows/documentation.yml)
 [![Tests](https://github.com/patrickm663/HMD.jl/actions/workflows/tests.yml/badge.svg)](https://github.com/patrickm663/HMD.jl/actions/workflows/tests.yml)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://patrickm663.github.io/HMD.jl/dev/)
