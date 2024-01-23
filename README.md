@@ -78,7 +78,7 @@ Additionally, locally saved `.txt` file from HMD can be loaded and processed - w
 
 ```julia
 julia> using HMD
-julia> df = read_HMD("test/Aus_Births.txt")
+julia> df = read_HMD("test/data/Aus_Births.txt")
 161×4 DataFrame
  Row │ Year   Female  Male    Total  
      │ Int64  Int64   Int64   Int64  
