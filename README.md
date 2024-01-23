@@ -96,9 +96,9 @@ The R package [HMDHFDplus](https://github.com/timriffe/TR1/tree/master/TR1) was 
 
 ## TODO
 My TODO over the next while is:
-- [ ] Complete the README
 - [x] Figure out why docstrings aren't showing in the documentation
 - [x] Maybe refactor `src/` to make it more modular
+- [ ] Complete the README
 - [ ] Add tests
 - [ ] Think about how to handle 'secret' credentials (testing and general use)
 - [ ] Better error handling
