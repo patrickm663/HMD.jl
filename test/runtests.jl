@@ -1,4 +1,4 @@
 using HMD
-using Tests
+using Test
 
 include("load_data.jl")
