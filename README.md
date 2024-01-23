@@ -1,6 +1,8 @@
 # HMD.jl
 [![Documentation](https://github.com/patrickm663/HMD.jl/actions/workflows/documentation.yml/badge.svg)](https://github.com/patrickm663/HMD.jl/actions/workflows/documentation.yml)
+[![Tests](https://github.com/patrickm663/HMD.jl/actions/workflows/tests.yml/badge.svg)](https://github.com/patrickm663/HMD.jl/actions/workflows/tests.yml)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://patrickm663.github.io/HMD.jl/dev/)
+[![codecov](https://codecov.io/gh/patrickm663/HMD.jl/graph/badge.svg?token=CXYVX2GRUF)](https://codecov.io/gh/patrickm663/HMD.jl)
 
 Makes it easy to get data from [Human Mortality Database (HMD)](https://www.mortality.org/) into Julia!
 
