@@ -27,7 +27,13 @@ function is_valid(country::String, tbl::String, grp::String)::Bool
     # check whether user has provided short-form or long-form name
     table_check = tbl ∈ keys(get_tables()) || tbl ∈ values(get_tables())
     if table_check
-      return table_check
+      group_check = grp ∈ get_groups()
+      if group_check
+	return group_check
+      else
+	@error "Invalid group: see HMD.get_groups() for a full list of valid groups"
+	return group_check
+      end
     else
       @error "Invalid table: see HMD.get_tables() for a full list of valid tables"
       return table_check
