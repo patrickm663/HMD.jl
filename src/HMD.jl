@@ -102,7 +102,7 @@ end
 """
   `get_countries()`
 
-Returns a `Dictionary` of valid country codes.
+Returns a `Dictionary` of valid countries and territories (i.e "Australia", "Austria", etc.)
 """
 function get_countries()::Dict{String, String}
   countries = Dict{String, String}(
@@ -170,7 +170,7 @@ end
 """
   `get_tables()`
 
-Returns a `Dictionary` of valid tables.
+Returns a `Dictionary` of valid tables (i.e. "Births", "Deaths", etc.).
 """
 function get_tables()::Dict{String, String}
   tables = Dict{String, String}(
@@ -194,7 +194,16 @@ function get_tables()::Dict{String, String}
   return tables
 end
 
+"""
+  `get_groups()`
 
-export read_HMD, get_countries, get_tables
+Returns a `Vector` of valid groupings (i.e. "1x1", "1x5", etc.)
+"""
+function get_groups()::Vector{String}
+  grps = ["1x1", "1x5", "1x10", "5x1", "5x5", "5x10"]
+  return grps
+end
+
+export read_HMD, get_countries, get_tables, get_groups
 
 end # module HMD
