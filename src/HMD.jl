@@ -8,7 +8,7 @@ using HTTP, CSV, DataFrames
 include("utils.jl")
 
 """
-  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)`
+  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=true)`
 
 Takes as input the country, table, interval and user credentials.
 
@@ -20,82 +20,112 @@ Takes as input the country, table, interval and user credentials.
 
 Optional:
 - `save` a Boolean keyword to save to a CSV
+- `verbose` for progress logs
 
 Returns a `DataFrame` object if successful.
 """
-function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false)
+function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=true)
+  if verbose
+    println("Checking inputs are valid...")
+  end
 
-  println("Checking inputs are valid...")
-  @assert is_valid(country, tbl, grp) == true
+  if is_valid(country, tbl, grp)
+    login_url = "https://www.mortality.org/Account/Login"
+    logout_url = "https://www.mortality.org/Account/Logout"
 
-  login_url = "https://www.mortality.org/Account/Login"
-  logout_url = "https://www.mortality.org/Account/Logout"
-
-  println("Attempting initial connection...")
-  logout = HTTP.request("PUT", logout_url; cookies=true)
-  session = HTTP.request("GET", login_url; cookies=true)
-  session_string = String(session.body)
-
-  full_index = findfirst("__RequestVerificationToken", session_string)
-  token_index = (full_index[1]+49):(full_index[2]+202)
-
-  token = session_string[token_index]
-  @assert token != ""
-
-  credentials = Dict(
-		     "Email" => username,
-		     "Password" => password,
-		     "__RequestVerificationToken" => token)
-
-  form = HTTP.Form(credentials)
-
-  response = HTTP.request("POST", login_url, [], form; cookies=true)
-
-  if response.status == 200
-    println("Attempting to login...")
-    HMD_url = get_url(country, tbl, grp)
-    get_data = HTTP.request("GET", HMD_url; cookies=true)
-    println("Data successfully retrieved...")
-    println("Data processing in progress...")
-    df_ = process_raw_txt(String(get_data.body))
-    println("Success!")
-    if save == true
-      file_path = country * "_" * tbl * "_" * grp * ".csv"
-      CSV.write(file_path, df_)
+    if verbose
+      println("Attempting initial connection...")
     end
-    return df_
-  else
-    return response
+
+    logout = HTTP.request("PUT", logout_url; cookies=true)
+    session = HTTP.request("GET", login_url; cookies=true)
+    session_string = String(session.body)
+
+    full_index = findfirst("__RequestVerificationToken", session_string)
+    token_index = (full_index[1]+49):(full_index[2]+202)
+
+    token = session_string[token_index]
+    @assert token != ""
+
+    credentials = Dict(
+		       "Email" => username,
+		       "Password" => password,
+		       "__RequestVerificationToken" => token)
+
+    form = HTTP.Form(credentials)
+    response = HTTP.request("POST", login_url, [], form; cookies=true)
+
+    if response.status == 200
+      if verbose
+	println("Attempting to login...")
+      end
+      HMD_url = get_url(country, tbl, grp)
+      try
+	get_data = HTTP.request("GET", HMD_url; cookies=true)
+	if verbose
+	  println("Data successfully retrieved...")
+	  println("Data processing in progress...")
+	end
+	df_ = process_raw_txt(String(get_data.body))
+	if verbose
+	  println("Success!")
+	end
+	if save == true
+	  try 
+	    file_path = country * "_" * tbl * "_" * grp * ".csv"
+	    CSV.write(file_path, df_)
+	    if verbose
+	      println("File saved as: "*file_path)
+	    end
+	  catch
+	    return @error "Unable to write to path"
+	  end
+	end
+	return df_
+      catch
+	return @error "Please ensure username and password are correct. Otherwise, ensure a valid combination of country, table, and group are provided"
+      end
+    else
+      return @error "Connection error encounted"
+    end
   end
 end
 
 """
-  `read_HMD(file_name::String)`
+  `read_HMD(file_name::String; save=false, verbose=false)`
 
 Takes as input the location of a .txt file downloaded from https://www.mortality.org/ and stored locally
 
 Optional:
 - `save` a Boolean keyword to save to a CSV
+- `verbose` for progress logs
 
 Returns a `DataFrame` object containing the data.
 """
-function read_HMD(file_name::String; save=false)::DataFrame
+function read_HMD(file_name::String; save=false, verbose=false)::DataFrame
   # Check a .txt file is provided
   @assert contains(file_name, ".txt")
 
-  # Open the file then read it as a String
-  txt_file = open(file_name, "r")
-  txt_string = read(txt_file, String)
-  # Apply the same pre-processing as per the online read_HMD() function
-  df_ = process_raw_txt(txt_string)
-  close(txt_file)
+  try
+    # Open the file then read it as a String
+    txt_file = open(file_name, "r")
+    txt_string = read(txt_file, String)
+    # Apply the same pre-processing as per the online read_HMD() function
+    df_ = process_raw_txt(txt_string)
+    close(txt_file)
 
-  if save == true
-    # Remove .txt extension
-    file_path = file_name[1:(end-3)] * "csv"
-    CSV.write(file_path, df_)
+    if save == true
+      # Remove .txt extension
+      file_path = file_name[1:(end-3)] * "csv"
+      CSV.write(file_path, df_)
+      if verbose
+	println("File saved as: "*file_path)
+      end
+    end
+    return df_
+  catch
+    return @error "Invalid file"
   end
-  return df_
 end
 
 
