@@ -8,7 +8,7 @@ using HTTP, CSV, DataFrames
 include("utils.jl")
 
 """
-  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=true)`
+  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)`
 
 Takes as input the country, table, interval and user credentials.
 
@@ -24,7 +24,7 @@ Optional:
 
 Returns a `DataFrame` object if successful.
 """
-function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=true)
+function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)
   if verbose
     println("Checking inputs are valid...")
   end
