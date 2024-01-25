@@ -23,5 +23,6 @@ docs/site/
 # environment.
 Manifest.toml
 
-# Avoid committing any top-level .csv files
+# Avoid committing any top-level .csv and .txt. .md is fine :)
 *.csv
+*.txt
