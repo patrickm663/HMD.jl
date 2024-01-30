@@ -8,7 +8,7 @@ using HTTP, CSV, DataFrames
 include("utils.jl")
 
 """
-  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)`
+  `read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)::Union{Nothing, DataFrame}`
 
 Takes as input the country, table, interval and user credentials.
 
@@ -24,7 +24,7 @@ Optional:
 
 Returns a `DataFrame` object if successful.
 """
-function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)
+function read_HMD(country::String, tbl::String, grp::String, username::String, password::String; save=false, verbose=false)::Union{Nothing, DataFrame}
   if verbose
     println("Checking inputs are valid...")
   end
@@ -92,7 +92,7 @@ function read_HMD(country::String, tbl::String, grp::String, username::String, p
 end
 
 """
-  `read_HMD(file_name::String; save=false, verbose=false)`
+  `read_HMD(file_name::String; save=false, verbose=false)::Union{Nothing, DataFrame}`
 
 Takes as input the location of a .txt file downloaded from https://www.mortality.org/ and stored locally
 
@@ -102,7 +102,7 @@ Optional:
 
 Returns a `DataFrame` object containing the data.
 """
-function read_HMD(file_name::String; save=false, verbose=false)::DataFrame
+function read_HMD(file_name::String; save=false, verbose=false)::Union{Nothing, DataFrame}
   # Check a .txt file is provided
   @assert contains(file_name, ".txt")
 
@@ -130,7 +130,7 @@ end
 
 
 """
-  `get_countries()`
+  `get_countries()::Dict{String, String}`
 
 Returns a `Dictionary` of valid countries and territories (i.e "Australia", "Austria", etc.)
 """
@@ -198,7 +198,7 @@ function get_countries()::Dict{String, String}
 end
 
 """
-  `get_tables()`
+  `get_tables()::Dict{String, String}`
 
 Returns a `Dictionary` of valid tables (i.e. "Births", "Deaths", etc.).
 """
@@ -234,6 +234,24 @@ function get_groups()::Vector{String}
   return grps
 end
 
-export read_HMD, get_countries, get_tables, get_groups
+"""
+  ``transform(df::DataFrame, col::Symbol)::Union{Nothing, DataFrame}`
+
+Returns a `DataFrame` structured age x year for a given feature (e.g. :Total)
+"""
+function transform(df::DataFrame, col::Symbol)::Union{Nothing, DataFrame}
+  if "Year" ∈ names(df) && "Age" ∈ names(df)
+    if String(col) ∈ names(df) && String(col) ∉ ["Year", "Age"]
+      return unstack(select(df, [:Year, :Age, col]), :Year, col)
+    else
+      return @error "Invalid column selected. Valid columns are: $(filter(x -> x ∉ ["Year", "Age"], names(df)))"
+    end
+  else
+    return @error "Invalid table for this operation"
+  end
+end
+
+
+export read_HMD, get_countries, get_tables, get_groups, transform
 
 end # module HMD
