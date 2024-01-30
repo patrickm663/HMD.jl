@@ -106,8 +106,9 @@ My TODO over the next while is:
 - [x] Add tests
 - [x] Better error handling
 - [x] Compile docs and run tests using Actions
+- [x] Check for valid country x table x group combos
+- [x] Add function to transform long-form `DataFrames` into $age \times year$ `DataFrames`
 - [ ] Think about how to handle 'secret' credentials (testing and general use)
-- [ ] Check for valid country x table x group combos
 - [ ] Make it compatible with [MortalityTables.jl](https://github.com/JuliaActuary/MortalityTables.jl)
 
 ## License

@@ -225,7 +225,7 @@ function get_tables()::Dict{String, String}
 end
 
 """
-  `get_groups()`
+  `get_groups()::Vector{String}`
 
 Returns a `Vector` of valid groupings (i.e. "1x1", "1x5", etc.)
 """
@@ -235,7 +235,7 @@ function get_groups()::Vector{String}
 end
 
 """
-  ``transform(df::DataFrame, col::Symbol)::Union{Nothing, DataFrame}`
+  `transform(df::DataFrame, col::Symbol)::Union{Nothing, DataFrame}`
 
 Returns a `DataFrame` structured age x year for a given feature (e.g. :Total)
 """
