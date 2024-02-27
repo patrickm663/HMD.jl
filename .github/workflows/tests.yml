@@ -11,7 +11,7 @@ jobs:
         version:
           - '1.9'
           - '1.10'
-          - 'nightly'
+          ##- 'nightly'
         os:
           - ubuntu-latest
           - macOS-latest
@@ -20,7 +20,7 @@ jobs:
         arch:
           - x64
         include:
-          - version: 'nightly'
+          - version: '1.10' ##'nightly'
             arch: x64
             os: ubuntu-latest
             experimental: true
