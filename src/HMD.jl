@@ -1,6 +1,8 @@
 # License: MIT
 # Core functions
 
+__precompile()__
+
 module HMD
 
 using HTTP, CSV, DataFrames
