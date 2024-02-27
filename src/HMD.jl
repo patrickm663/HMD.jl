@@ -1,7 +1,7 @@
 # License: MIT
 # Core functions
 
-__precompile()__
+__precompile__()
 
 module HMD
 
