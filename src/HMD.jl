@@ -156,7 +156,7 @@ function get_countries()::Dict{String, String}
 				   "Germany" => "DEUTNP",
 				   "Germany (East)" => "DEUTE",
 				   "Germany (West)" => "DEUTW",
-				   "Greece" => "GRK", 
+				   "Greece" => "GRC", 
 				   "Hong Kong" => "HKG", 
 				   "Hungary" => "HUN", 
 				   "Iceland" => "ISL", 
